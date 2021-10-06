@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://avatars.githubusercontent.com/u/76629978?v=4" alt="Dcode-Denpa " width="300" />
+<img src="https://avatars.githubusercontent.com/u/47713860?v=4" alt="KIRA MASTER " width="300" />
 
 # KIRA MASTER
 
