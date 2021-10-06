@@ -3244,12 +3244,12 @@ if (!args.length) return reply('Judulnya apa kak?')
 					exif.create(namaPack, authorPack)
 					await reply('Done gan')
 				break
-				case 'sticker':
+							case 'sticker':
 					case 'stiker':
 					case 's':
 						if (isMedia && !mek.message.videoMessage || isQuotedImage) {
 							const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-							const media = await kira.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+							const media = await denz.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 							await ffmpeg(`${media}`)
 									.input(media)
 									.on('start', function (cmd) {
@@ -3264,7 +3264,7 @@ if (!args.length) return reply('Judulnya apa kak?')
 										console.log('Finish')
 										exec(`webpmux -set exif ./sticker/data.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
 											if (error) return reply(mess.error.api)
-											kira.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, {quoted: mek})
+											denz.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, {quoted: mek})
 											fs.unlinkSync(media)	
 											fs.unlinkSync(`./sticker/${sender}.webp`)	
 										})
@@ -3274,7 +3274,7 @@ if (!args.length) return reply('Judulnya apa kak?')
 									.save(`./sticker/${sender}.webp`)
 						} else if ((isMedia && mek.message.videoMessage.fileLength < 10000000 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.fileLength < 10000000)) {
 							const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-							const media = await kira.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+							const media = await denz.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 							reply(mess.wait)
 								await ffmpeg(`${media}`)
 									.inputFormat(media.split('.')[4])
@@ -3291,7 +3291,7 @@ if (!args.length) return reply('Judulnya apa kak?')
 										console.log('Finish')
 										exec(`webpmux -set exif ./sticker/data.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
 											if (error) return reply(mess.error.api)
-											kira.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, {quoted: mek})
+											denz.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, {quoted: mek})
 											fs.unlinkSync(media)
 											fs.unlinkSync(`./sticker/${sender}.webp`)
 										})
