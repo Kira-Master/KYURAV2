@@ -16,14 +16,14 @@
 ```bash
 > pkg install nodejs && pkg install git
 > git clone https://github.com/Kira-Master/KYURAV2
-> cd bitch-bot
+> cd KYURAV2
 > bash install.sh
 > npm start/node index.js
 ```
 ## CARA INSTALL DI LAPTOP
 ```bash
 > git clone https://github.com/Kira-Master/KYURAV2
-> cd bitch-bot
+> cd KYURAV2
 > npm i
 > npm start/node index.js
 ```
