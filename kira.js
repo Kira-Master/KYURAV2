@@ -60,6 +60,10 @@ const { pinterest } = require('./lib/pinterest')
 const { addCommands, checkCommands, deleteCommands } = require('./lib/autoresp')
 const { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('./lib/ytdl')
 const { getBuffer, getGroupAdmins, getRandom, start, info, success, close } = require('./lib/functions')
+let {    
+    gamewaktu,
+    limitCount
+} = require('./settings')
 const client = new WAConnection()
 
 // STICKER WM
@@ -75,11 +79,13 @@ const setik = JSON.parse(fs.readFileSync('./database/setik.json'))
 const vien = JSON.parse(fs.readFileSync('./database/vien.json'))
 const imagi = JSON.parse(fs.readFileSync('./database/imagi.json'))
 const bad = JSON.parse(fs.readFileSync('./database/bad.json'))
+const limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
 const tictactoe = JSON.parse(fs.readFileSync("./database/tictactoe.json"))
 const antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
 const mute = JSON.parse(fs.readFileSync('./database/mute.json'))
+const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("./lib/limit");
 const settings = JSON.parse(fs.readFileSync('./settings.json'))
 const kickarea = JSON.parse(fs.readFileSync('./database/kickarea.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
@@ -246,6 +252,7 @@ try {
 		cmhit.push(command)
         mess = {
 			wait: 'Wait a minute',
+		      	limit: `Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`,
 			success: 'Success',
 			error: {
 				stick: 'Cannot access videos!',
@@ -265,7 +272,7 @@ try {
 		const sender = mek.key.fromMe ? kira.user.jid : isGroup ? mek.participant : mek.key.remoteJid
 		const senderNumber = sender.split("@")[0] 
 		const conts = mek.key.fromMe ? kira.user.jid : kira.contacts[mek.sender]
-        const pushname = mek.key.fromMe ? kira.user.name : !conts ? '-' : conts.notify || conts.vname || conts.name || '-'   
+       		const pushname = mek.key.fromMe ? kira.user.name : !conts ? '-' : conts.notify || conts.vname || conts.name || '-'   
 		const totalchat = await kira.chats.all()
 		const groupMetadata = isGroup ? await kira.groupMetadata(from) : ''
 		const groupName = isGroup ? groupMetadata.subject : ''
@@ -1569,6 +1576,7 @@ break
 case 'ig':
 case 'igdl':
 case 'instagram':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { igDownloader } = require('./lib/igdown')
    res = await igDownloader(`${c}`).catch(e => {
@@ -1580,6 +1588,7 @@ sendMediaURL(from,`${res.result.link}`,`${res.result.desc}`)
                     case 'tiktok':
                    case 'tiktokdl':
                    case 'tiktoknowm':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { TiktokDownloader } = require('./lib/tiktokdl')
 reply(mess.wait)
@@ -3135,7 +3144,8 @@ break
 						}
 						break
 						case 'ytsearch':
-            if (!args.length) return reply('Judulnya apa kak?')
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+if (!args.length) return reply('Judulnya apa kak?')
             try {
             	reply(mess.wait)
                 const input = args.join(" ")
@@ -3181,7 +3191,8 @@ break
 						}
 						break
                     case 'play':
-                            if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
+				if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+                            	if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
                             const playy = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
                             const mulaikah = playy.data.result[0].url
                             try {
