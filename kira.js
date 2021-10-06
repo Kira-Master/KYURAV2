@@ -53,6 +53,7 @@ const { uploadimg, upload } = require('./lib/uploadimg')
 const { webp2mp4File } = require('./lib/webp2mp4')
 const { lirikLagu } = require('./lib/lirik.js')
 const { wikiSearch } = require('./lib/wiki.js')
+const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 const { herolist } = require('./lib/herolist.js')
 const { herodetails } = require('./lib/herodetail.js')
 const { mediafireDl } = require('./lib/mediafire.js')
@@ -81,6 +82,8 @@ const imagi = JSON.parse(fs.readFileSync('./database/imagi.json'))
 const bad = JSON.parse(fs.readFileSync('./database/bad.json'))
 const limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
+const premium = JSON.parse(fs.readFileSync('./database/premium.json'))
+const _prem = require("./lib/premium")
 const tictactoe = JSON.parse(fs.readFileSync("./database/tictactoe.json"))
 const antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
@@ -265,6 +268,7 @@ try {
 				ownerB: 'Only for bot owners!',
 				admin: 'Only for group admins!',
 				Badmin: 'Make the bot a group admin!'
+				prem: ' *ONLY VIP USER, CHAT FOR OWNER THIS BUY VIP* '
 			}
 		}
 		const botNumber = kira.user.jid
@@ -929,7 +933,7 @@ menu = `┌───「 \`\`\`${NamaBot}\`\`\` 」
 ├ _Auto Recording : ${settings.autorecording}_
 │
 ├───「 \`\`\`INFO USER\`\`\` 」
-│
+│ _Sisa Limit_ : ${isPremium ? 'Unlimited' : `${getLimit(sender, limitCount, limit)}/${limitCount}`}
 ├ _Status : ${isOwner ? 'Owner' : 'User'}_
 ├ _Nama : ${pushname}_
 ├ _Bio_ : _${stst}_
@@ -1576,7 +1580,7 @@ break
 case 'ig':
 case 'igdl':
 case 'instagram':
-if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { igDownloader } = require('./lib/igdown')
    res = await igDownloader(`${c}`).catch(e => {
@@ -1588,7 +1592,7 @@ sendMediaURL(from,`${res.result.link}`,`${res.result.desc}`)
                     case 'tiktok':
                    case 'tiktokdl':
                    case 'tiktoknowm':
-if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
+   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { TiktokDownloader } = require('./lib/tiktokdl')
 reply(mess.wait)
@@ -1623,6 +1627,7 @@ res = await kira.prepareMessageFromContent(from,{
 kira.relayWAMessage(res)
 break
 case 'pinterest':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('yg mau di cari apa?')
 pinterest(`${c}`).then( data => {
 const amsulah = data.result
@@ -3125,7 +3130,8 @@ kira.sendMessage(from, 'yaudah oke',text, {
 })
 break
                 case 'ytmp4':
-						if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
+		   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+			if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
 						let isLinks2 = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 						if (!isLinks2) return reply(mess.error.Iv)
 						try {
@@ -3172,6 +3178,7 @@ if (!args.length) return reply('Judulnya apa kak?')
             }
             break
 					case 'ytmp3':
+		   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
 						if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp3 [linkYt]*`)
 						let isLinks = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 						if (!isLinks) return reply(mess.error.Iv)
@@ -3191,7 +3198,7 @@ if (!args.length) return reply('Judulnya apa kak?')
 						}
 						break
                     case 'play':
-				if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
+   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
                             	if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
                             const playy = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
                             const mulaikah = playy.data.result[0].url
