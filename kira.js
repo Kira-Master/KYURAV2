@@ -2064,6 +2064,10 @@ if (Number(oi2) >= 50) return reply('Kebanyakan!')
    if (!arg) return reply(from, `Penggunaan ${prefix}vampire teks`, mek)
    sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/flamingtext/vampire?text=${arg}&apikey=${HunterApi}`)
    break
+	case 'harta':
+   if (!arg) return reply(from, `Penggunaan ${prefix}harta teks`, mek)
+   sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/chartatahta?text=${arg}&apikey=${HunterApi}`)
+   break
    case 'codetxt':
    if (!arg) return reply(from, `Penggunaan ${prefix}codetxt teks`, mek)
    sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/maker/carbon?code=${arg}&apikey=${HunterApi}`)
