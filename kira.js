@@ -267,7 +267,7 @@ try {
 				ownerG: 'Only for group owners!',
 				ownerB: 'Only for bot owners!',
 				admin: 'Only for group admins!',
-				Badmin: 'Make the bot a group admin!'
+				Badmin: 'Make the bot a group admin!',
 				prem: ' *ONLY VIP USER, CHAT FOR OWNER THIS BUY VIP* '
 			}
 		}
