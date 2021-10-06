@@ -1576,7 +1576,7 @@ break
 case 'ig':
 case 'igdl':
 case 'instagram':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { igDownloader } = require('./lib/igdown')
    res = await igDownloader(`${c}`).catch(e => {
@@ -1588,7 +1588,7 @@ sendMediaURL(from,`${res.result.link}`,`${res.result.desc}`)
                     case 'tiktok':
                    case 'tiktokdl':
                    case 'tiktoknowm':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!c) return reply('Linknya?')
 var { TiktokDownloader } = require('./lib/tiktokdl')
 reply(mess.wait)
@@ -3144,7 +3144,7 @@ break
 						}
 						break
 						case 'ytsearch':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
 if (!args.length) return reply('Judulnya apa kak?')
             try {
             	reply(mess.wait)
@@ -3191,7 +3191,7 @@ if (!args.length) return reply('Judulnya apa kak?')
 						}
 						break
                     case 'play':
-				if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
+				if (isLimit(sender, isOwner, limitCount, limit)) return reply(mess.limit) 
                             	if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
                             const playy = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
                             const mulaikah = playy.data.result[0].url
