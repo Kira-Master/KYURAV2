@@ -50,10 +50,10 @@ const { color, bgcolor } = require('./lib/color')
 const { exec } = require('child_process')
 const { fetchJson } = require('./lib/fetcher')
 const { uploadimg, upload } = require('./lib/uploadimg')
+const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("./lib/limit");
 const { webp2mp4File } = require('./lib/webp2mp4')
 const { lirikLagu } = require('./lib/lirik.js')
 const { wikiSearch } = require('./lib/wiki.js')
-const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 const { herolist } = require('./lib/herolist.js')
 const { herodetails } = require('./lib/herodetail.js')
 const { mediafireDl } = require('./lib/mediafire.js')
@@ -88,7 +88,6 @@ const tictactoe = JSON.parse(fs.readFileSync("./database/tictactoe.json"))
 const antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
 const mute = JSON.parse(fs.readFileSync('./database/mute.json'))
-const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("./lib/limit");
 const settings = JSON.parse(fs.readFileSync('./settings.json'))
 const kickarea = JSON.parse(fs.readFileSync('./database/kickarea.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
@@ -292,6 +291,7 @@ try {
 		const isWelkom = isGroup ? welkom.includes(from) : false
 		const isAuto = isGroup ? autosticker.includes(from) : false
 		const isMuted = isGroup ? mute.includes(from) : false
+        const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isButton = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedDisplayText : ''
 		const isUrl = (url) => {
