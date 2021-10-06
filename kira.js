@@ -892,14 +892,17 @@ kira.updatePresence(from, Presence.recording)
         su = mek.message.stickerMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('hex')
         reply(su)
 				}
-        switch (command) {
-        	case 'menu':
-        case 'help':
-        stod = `${sender}`
-       stst = await kira.getStatus(`${sender.split('@')[0]}@c.us`)
-				stst = stst.status == 401 ? '' : stst.status
-			num = await fetchJson(`https://api.telnyx.com/anonymous/v2/number_lookup/${senderNumber}`, {method: 'get'})
-       menu = `┌───「 \`\`\`${NamaBot}\`\`\` 」
+switch (command) {
+case 'menu':
+case 'help':
+stod = `${sender}`
+stst = await kira.getStatus(`${sender.split('@')[0]}@c.us`)
+stst = stst.status == 401 ? '' : stst.status
+num = await fetchJson(`https://api.telnyx.com/anonymous/v2/number_lookup/${senderNumber}`, {method: 'get'})
+fill =`Hai Kak ${pushname}, ${tampilUcapan}
+Silahkan Pilih Untuk Menampilkan Menu
+Jika Button Tidak Muncul Ketik .allmenu`
+menu = `┌───「 \`\`\`${NamaBot}\`\`\` 」
 │
 ├ _Creator : @${dtod.split('@')[0]}_
 ├ _Battery : ${baterai.battery}_
@@ -919,12 +922,241 @@ kira.updatePresence(from, Presence.recording)
 │
 ├ _Status : ${isOwner ? 'Owner' : 'User'}_
 ├ _Nama : ${pushname}_
-├ _Bio : ${stst}_
-├ _Nomor : @${stod.split('@')[0]}_
+├ _Bio_ : _${stst}_
+├ _Nomor_ : @${stod.split('@')[0]}_
 ├ _Info Nomor : ${num.data.country_code} - ${num.data.carrier.type} - ${num.data.carrier.name}_
 │
 └───「 \`\`\`${NamaBot}\`\`\` 」`
-sendButLocation(from, `${menu}`, "*_© KIRA MASTER_*", {jpegThumbnail:ofrply,name:""}, [{buttonId:`command`,buttonText:{displayText:'LIST MENU'},type:1},{buttonId:`owner`,buttonText:{displayText:'DEVELOPER'},type:1},{buttonId:`script`,buttonText:{displayText:'SOURCE CODE'},type:1}], {contextInfo: { mentionedJid: [dtod,otod,stod]}})
+sendButLocation(from, `${menu}`, "*_© KIRA MASTER_*", {jpegThumbnail:ofrply,name:""}, [{buttonId:`allmenu`,buttonText:{displayText:'LIST MENU'},type:1},{buttonId:`owner`,buttonText:{displayText:'DEVELOPER'},type:1},{buttonId:`script`,buttonText:{displayText:'SOURCE CODE'},type:1}], {contextInfo: { mentionedJid: [dtod,otod,stod]}})
+break
+			case 'allmenu':
+kira.sendMessage(from, 'Wait sedang menampilkan menu', text, {quoted: ftok})
+stst = await kira.getStatus(`${sender.split('@')[0]}@c.us`)
+stst = stst.status == 401 ? '' : stst.status
+num = await fetchJson(`https://api.telnyx.com/anonymous/v2/number_lookup/${senderNumber}`, {method: 'get'})
+data = fs.readFileSync('./lib/logo.js');
+jsonData = JSON.parse(data);
+randIndex = Math.floor(Math.random() * jsonData.length);
+randKey = jsonData[randIndex];
+gambar = await getBuffer(randKey.result)
+menu =`╭─❒ 「 INFO 」 ❒──❒
+│ ⬡ Owner : @${otod.split('@')[0]}
+│ ⬡ Battery : ${baterai.battery}
+│ ⬡ Mode : ${publik ? 'Public' : 'Self'}
+│ ⬡ Prefix : ${multi ? 'Multi Prefix' : 'No Prefix'}
+│ ⬡ Total Hit : ${cmhit.length}
+└❏
+╭─❒ 「 TIME 」 ❒──❒
+│ ⬡ Wib : ${timeWib}
+│ ⬡ Wita : ${timeWita}
+│ ⬡ Wit : ${timeWit}  
+│ ⬡ Hari : ${week} ${weton}
+│ ⬡ Tanggal : ${calender}
+└❏
+╭─❒ OWNER
+├ ${prefix}stopjadibot
+├ ${prefix}autorespon [ _on/off_ ]
+├ ${prefix}bc [ _teks/reply gif/image/video with caption_ ]
+├ ${prefix}tobc [ _reply sticker/audio with caption_ ]
+├ ${prefix}return [ _javascript_ ]
+├ ${prefix}clearall
+├ ${prefix}delchat
+├ ${prefix}mute
+├ ${prefix}unmute
+├ ${prefix}mode [ _publik/self_ ]
+├ ${prefix}setmenu [ _1/2_ ]
+├ ${prefix}spam [ _teks|jumlah_ ]
+├ ${prefix}demoteall
+├ ${prefix}promoteall
+├ ${prefix}addcmd [ _teks reply stc_ ]
+├ ${prefix}delcmd [ _reply stc_ ]
+├ ${prefix}listcmd
+├ ${prefix}spamsw [ _teks|jumlah_ ]
+├ ${prefix}upswteks [ _teks_ ]
+├ ${prefix}upswlokasi [ _teks_ ]
+├ ${prefix}upswaudio [ _reply audio_ ]
+├ ${prefix}upswvoice [ _reply audio_ ]
+├ ${prefix}upswsticker [ _reply sticker_ ]
+├ ${prefix}upswimage [ _reply image with caption_ ]
+├ ${prefix}upswgif [ _reply gif with caption_ ]
+├ ${prefix}upswvideo [ _reply video with caption_ ]
+├ ${prefix}shutdown
+├ ${prefix}offline [ _alasan_ ]
+├ ${prefix}online
+├ ${prefix}exif [ _nama|author_ ]
+├ ${prefix}setprofile [ _reply image_ ]
+├ ${prefix}setname [ _teks_ ]
+├ ${prefix}setprefix [ _multi/nopref/prefix_ ]
+├ ${prefix}setbio [ _teks_ ]
+├ ${prefix}bug [ _jumlah_ ]
+├ ${prefix}bugpc2 [ _jumlah_ ]
+├ ${prefix}bugtroli2 [ _jumlah_ ]
+├ ${prefix}bugpc
+├ ${prefix}bugcombine
+├ ${prefix}bugtroli
+├ ${prefix}buglokasi
+├ ${prefix}bughole
+├ ${prefix}leave
+├ ${prefix}restart
+├ ${prefix}join [ _link group_ ]
+├ ${prefix}addrespon [ _tanya|jawab_ ]
+├ ${prefix}delrespon [ _nama_ ]
+├ ${prefix}q [ _reply message_ ]
+├ ${prefix}baileys [ _reply message_ ]
+└─────────────────❒
+╭─❒ DOWNLOAD
+├ ${prefix}infogempa
+├ ${prefix}herolist
+├ ${prefix}herodetail [ _hero_ ]
+├ ${prefix}google [ _search_ ]
+├ ${prefix}gimage [ _search_ ]
+├ ${prefix}wiki [ _search_ ]
+├ ${prefix}mediafire [ _link_ ]
+├ ${prefix}ytsearch [ _judul_ ]
+├ ${prefix}ytmp4 [ _link yt_ ]
+├ ${prefix}ytmp3 [ _link yt_ ]
+├ ${prefix}play [ _judul lagu_ ]
+├ ${prefix}video [ _judul video_ ]
+├ ${prefix}tinyurl [ _link_ ]
+├ ${prefix}fetch [ _link_ ]
+├ ${prefix}igdl [ _link_ ]
+├ ${prefix}tiktokdl [ _link_ ]
+├ ${prefix}pinterest [ _search_ ]
+├ ${prefix}lirik [ _judul_ ]
+├ ${prefix}tourl [ _reply image/video_ ]
+├ ${prefix}resepmasakan [ _judul_ ]
+├ ${prefix}artimimpi [ _teks_ ]
+├ ${prefix}bilangangka [ _angka_ ]
+├ ${prefix}kalkulator [ _angka_ ]
+├ ${prefix}fancytext [ _teks_ ]
+├ ${prefix}githubstalk [ _username_ ]
+├ ${prefix}translate [ _kodebhs|teks_ ]
+├ ${prefix}ss [ _link_ ]
+└─────────────────❒
+╭─❒ MAKER
+├ ${prefix}foliokiri [ _teks_ ]
+├ ${prefix}foliokanan [ _teks_ ]
+├ ${prefix}nuliskanan [ _teks_ ]
+├ ${prefix}nuliskiri [ _teks_ ]
+├ ${prefix}matrix [ _teks_ ]
+├ ${prefix}googletxt [ _teks_ ]
+├ ${prefix}spiderman [ _teks_ ]
+├ ${prefix}express [ _teks_ ]
+├ ${prefix}dance [ _teks_ ]
+├ ${prefix}blackbird [ _teks_ ]
+├ ${prefix}halloween [ _teks_ ]
+├ ${prefix}vampire [ _teks_ ]
+├ ${prefix}codetxt [ _teks_ ]
+├ ${prefix}text3d [ _teks_ ]
+├ ${prefix}warrior [ _teks_ ]
+├ ${prefix}maker2d2 [ _teks_ ]
+├ ${prefix}maker2d3 [ _teks_ ]
+├ ${prefix}maker2d4 [ _teks_ ]
+├ ${prefix}maker3d [ _teks_ ]
+├ ${prefix}maker3d2 [ _teks_ ]
+├ ${prefix}maker3d3 [ _teks_ ]
+├ ${prefix}maker3d4 [ _teks_ ]
+├ ${prefix}transformer [ _teks_ ]
+├ ${prefix}googletxt [ _teks|teks|teks_ ]
+├ ${prefix}battlefield [ _teks|teks_ ]
+├ ${prefix}coffeecup [ _teks_ ]
+├ ${prefix}coffeecup2 [ _teks_ ]
+├ ${prefix}neon [ _teks_ ]
+├ ${prefix}glow [ _teks_ ]
+├ ${prefix}summer [ _teks_ ]
+├ ${prefix}flower [ _teks_ ]
+├ ${prefix}burn [ _teks_ ]
+├ ${prefix}quote [ _teks_ ]
+├ ${prefix}wooden [ _teks_ ]
+├ ${prefix}golden [ _teks_ ]
+└─────────────────❒
+╭─❒ GROUP
+├ ${prefix}getpict [ _@tag_ ]
+├ ${prefix}getname [ _reply target_ ]
+├ ${prefix}getbio [ _reply target_ ]
+├ ${prefix}promote [ _@tag_ ]
+├ ${prefix}demote [ _@tag_ ]
+├ ${prefix}antilink [ _1/0_ ]
+├ ${prefix}creategrup [ _nama|@tag_ ]
+├ ${prefix}tictactoe [ _@tag_ ]
+├ ${prefix}delttt
+├ ${prefix}getpp
+├ ${prefix}kick [ _@tag_ ]
+├ ${prefix}add [ _nomor_ ]
+├ ${prefix}getdeskgc
+├ ${prefix}sider [ _reply pesan bot_ ]
+├ ${prefix}hacked [ _teks_ ]
+├ ${prefix}setnamegc [ _teks_ ]
+├ ${prefix}setdeskgc [ _teks_ ]
+├ ${prefix}fitnah [ _@tag|teks1|teks2_ ]
+├ ${prefix}kontak [ _@tag|nama_ ]
+├ ${prefix}kontag [ _@tag|nama_ ]
+├ ${prefix}opengc
+├ ${prefix}closegc
+├ ${prefix}resetlinkgc
+├ ${prefix}linkgrup
+├ ${prefix}hidetag [ _teks_ ]
+├ ${prefix}sticktag [ _nama sticker_ ]
+├ ${prefix}totag [ _reply media_ ]
+├ ${prefix}caripesan [ _teks|jumlah_ ]
+└─────────────────❒
+╭─❒ JADI BOT
+├ ${prefix}jadibot
+├ ${prefix}stopjadibot
+└─────────────────❒
+╭─❒ STORAGE
+├ ${prefix}listimage
+├ ${prefix}liststicker
+├ ${prefix}listvn
+├ ${prefix}listgrup
+├ ${prefix}addsticker [ _nama_ ]
+├ ${prefix}delsticker [ _nama_ ]
+├ ${prefix}addvn [ _nama_ ]
+├ ${prefix}delvn [ _nama_ ]
+├ ${prefix}addimage [ _nama_ ]
+├ ${prefix}delimage [ _nama_ ]
+└─────────────────❒
+╭─❒ CONVERT
+├ ${prefix}tomp3 [ _reply video_ ]
+├ ${prefix}tomp4 [ _reply sticker gif_ ]
+├ ${prefix}robot [ _reply audio_ ]
+├ ${prefix}balik [ _reply audio_ ]
+├ ${prefix}bass [ _reply audio_ ]
+├ ${prefix}gemuk [ _reply audio_ ]
+├ ${prefix}detikvn [ _reply audio caption angka_ ]
+├ ${prefix}detikvideo [ _reply video caption angka_ ]
+└─────────────────❒
+╭─❒ TOOLS
+├ ${prefix}sticker
+├ ${prefix}stickerwm [ _nama|author_ ]
+├ ${prefix}takestick [ _nama|author_ ]
+├ ${prefix}colong [ _reply sticker_ ]
+├ ${prefix}semoji [ _emoji_ ]
+├ ${prefix}attp [ _teks_ ]
+├ ${prefix}toimg
+└─────────────────❒
+╭─❒ FUN
+├ ${prefix}meme
+├ ${prefix}slots
+├ ${prefix}tictactoe
+├ ${prefix}rate [ _teks_ ]
+├ ${prefix}kapankah [ _teks_ ]
+├ ${prefix}apakah [ _teks_ ]
+├ ${prefix}bisakah [ _teks_ ]
+├ ${prefix}suit [ _gunting/batu/kertas_ ]
+├ ${prefix}tag [ _nomor_ ]
+├ ${prefix}tagme
+├ ${prefix}tts [ _kodebhs teks_ ]
+├ ${prefix}readmore [ _teks1|teks2_ ]
+├ ${prefix}fitnahpc [ _nomor|teks1|teks2_ ]
+├ ${prefix}chat [ _nomor|teks_ ]
+├ ${prefix}fdeface [ _replyimg link|teks1|teks2_ ]
+├ ${prefix}getcaption [ _reply message_ ]
+├ ${prefix}pantun
+├ ${prefix}tospam [ _reply audio/sticker/image|jumlah_ ]
+├ ${prefix}sharelock [ _teks1|teks2_ ]
+└─────────────────❒`
+sendButLocation(from, `${menu}`, "K Y U R A 右", {jpegThumbnail:gambar,name:""}, [{buttonId:`owner`,buttonText:{displayText:'👑OWNER'},type:1},{buttonId:`script`,buttonText:{displayText:'📒SCRIPT'},type:1}], {contextInfo: { mentionedJid: [otod]}})
 break
 case 'command':
  stod = `${sender}`
