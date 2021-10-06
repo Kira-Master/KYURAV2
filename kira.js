@@ -209,6 +209,9 @@ try {
 		const type = Object.keys(mek.message)[0]
 		const { text, extendedText, contact, location, liveLocation, image, video, sticker, document, audio } = MessageType
 		const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+		const timeWib = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+		const timeWita = moment().tz('Asia/Makassar').format('DD/MM HH:mm:ss')
+        	const timeWit = moment().tz('Asia/Jayapura').format('DD/MM HH:mm:ss')
 		const cmd = (type === 'conversation' && mek.message.conversation) ? mek.message.conversation : (type == 'imageMessage') && mek.message.imageMessage.caption ? mek.message.imageMessage.caption : (type == 'videoMessage') && mek.message.videoMessage.caption ? mek.message.videoMessage.caption : (type == 'extendedTextMessage') && mek.message.extendedTextMessage.text ? mek.message.extendedTextMessage.text : (type == 'stickerMessage') && (getCmd(mek.message.stickerMessage.fileSha256.toString('hex')) !== null && getCmd(mek.message.stickerMessage.fileSha256.toString('base64')) !== undefined) ? getCmd(mek.message.stickerMessage.fileSha256.toString('base64')) : "".slice(1).trim().split(/ +/).shift().toLowerCase()
 		kira.on("CB:action,,battery", json => {
 	    const battery = json[2][0][1].value
