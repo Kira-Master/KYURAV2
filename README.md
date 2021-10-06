@@ -15,14 +15,14 @@
 ## CARA INSTALL DI TERMUX
 ```bash
 > pkg install nodejs && pkg install git
-> git clone https://github.com/dcode-denpa/bitch-boot
+> git clone https://github.com/Kira-Master/KYURAV2
 > cd bitch-bot
 > bash install.sh
 > npm start/node index.js
 ```
 ## CARA INSTALL DI LAPTOP
 ```bash
-> git clone https://github.com/dcode-denpa/bitch-boot
+> git clone https://github.com/Kira-Master/KYURAV2
 > cd bitch-bot
 > npm i
 > npm start/node index.js
