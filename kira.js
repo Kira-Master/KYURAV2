@@ -929,7 +929,7 @@ menu = `┌───「 \`\`\`${NamaBot}\`\`\` 」
 ├ _Auto Recording : ${settings.autorecording}_
 │
 ├───「 \`\`\`INFO USER\`\`\` 」
-│ _Sisa Limit_ :*`${getLimit(sender, limitCount, limit)}/${limitCount}`}*
+│
 ├ _Status : ${isOwner ? 'Owner' : 'User'}_
 ├ _Nama : ${pushname}_
 ├ _Bio_ : _${stst}_
