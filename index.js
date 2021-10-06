@@ -6,6 +6,7 @@ const qrcode = require("qrcode-terminal")
 const moment = require("moment-timezone")
 const fs = require("fs")
 const util = require('util')
+const term = require('terminal-kit').terminal
 const figlet = require('figlet')
 const time = moment().tz('Asia/Jakarta').format("HH:mm:ss")
 const fetch = require('node-fetch')
