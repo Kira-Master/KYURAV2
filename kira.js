@@ -1453,15 +1453,6 @@ const tag1 = `${c.split(" ")[0].replace("@",'')}@s.whatsapp.net`
 giveLimit(tag1, lim, limit) 
 reply(`Succes Mengirim Limit Sejumlah: *${lim}*`)
 break
-case 'addprem':
-if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
-if (!c)return reply(`*Format Error!*\n\n*Example :*\n*${prefix + command} @tag 10d*\n\n*Note :*\n s : detik\n m : menit\n h : jam\n d : hari\n`)
-expired = c.split(" ")[1]
-const pnom = {id: `${c.split(" ")[0].replace("@",'')}@s.whatsapp.net`,expired: Date.now() + toMs(expired) }
-premium.push(pnom) 
-fs.writeFileSync('./database/premium.json',JSON.stringify(premium))
-reply(`_Succses_`)
-break
 case 'limit': case 'ceklimit': case 'balance':
 tiyo = `*${pushname}*\n\nLimit : ${isPremium ? 'Unlimited' : `${getLimit(sender, limitCount, limit)}/${limitCount}`}\n\nKamu dapat meminta owner untuk memberi kamu 10 limit`
 sendButMessage(from, tiyo, `CLICK DIBAWAH UNTUK MEMBELI LIMIT`, [
