@@ -2233,6 +2233,33 @@ case 'matrix':
                     const text2 = c.substring(c.lastIndexOf('|') + 1)
                     reply( text1 + readmore + text2)
                     break
+case 'harta':
+   if (!arg) return reply(from, `Penggunaan ${prefix}harta teks`, mek)
+   sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/chartatahta?text=${arg}&apikey=${HunterApi}`)
+   break
+		case 'harta2':
+   if (!arg) return reply(from, `Penggunaan ${prefix}harta teks`, mek)
+   sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/hartatahta?text=${arg}&apikey=Ikyy69`)
+   break
+
+case 'hentai':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
+sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/nsfw/hentai?apikey=Ikyy69`)
+break
+case 'yuri':
+case 'blowjob':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
+return reply(mess.wait)
+sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/nsfw/${command}?apikey=Ikyy69`)
+break
+
+case 'megumin':
+case 'shinobu':
+case 'waifu':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
+return reply(mess.wait)
+sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/sfw/${command}?apikey=Ikyy69`)
+break
                     case 'delchat':
                     if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
                 reply('Sukses menghapus chat' + from)
