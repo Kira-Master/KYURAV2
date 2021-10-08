@@ -2713,7 +2713,7 @@ break
 					break
 				case 'join':
 				if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
-				 if (args.length < 1) return ephe('Link nya mana?')
+				 if (args.length < 1) return reply('Link nya mana?')
 					kira.query({
 json:["action", "invite", `${args[0].replace('https://chat.whatsapp.com/','')}`]
 })
