@@ -58,6 +58,7 @@ const { herolist } = require('./lib/herolist.js')
 const { herodetails } = require('./lib/herodetail.js')
 const { mediafireDl } = require('./lib/mediafire.js')
 const { pinterest } = require('./lib/pinterest')
+const { ind } = require('./database/bahasa')
 const { addCommands, checkCommands, deleteCommands } = require('./lib/autoresp')
 const { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('./lib/ytdl')
 const { getBuffer, getGroupAdmins, getRandom, start, info, success, close } = require('./lib/functions')
@@ -75,6 +76,7 @@ const Exif = require('./lib/exif')
 const exif = new Exif()
 
 // DATABASE
+const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 const afk = JSON.parse(fs.readFileSync('./database/afk.json'))
 const setik = JSON.parse(fs.readFileSync('./database/setik.json'))
 const vien = JSON.parse(fs.readFileSync('./database/vien.json'))
@@ -161,6 +163,35 @@ const cekafk = (_dir) => {
             fs.writeFileSync('./database/afk.json', JSON.stringify(_dir))
         }
     }, 1000)
+}
+const getRegisteredRandomId = () => {
+return _registered[Math.floor(Math.random() * _registered.length)].id
+}
+
+const addRegisteredUser = (userid, sender, age, time, serials) => {
+const obj = {
+id: userid,
+name: sender,
+age: age,
+time: time,
+serial: serials
+}
+_registered.push(obj)
+fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+}
+
+const createSerial = (size) => {
+return crypto.randomBytes(size).toString('hex').slice(0, size)
+}
+
+const checkRegisteredUser = (sender) => {
+let status = false
+Object.keys(_registered).forEach((i) => {
+if (_registered[i].id === sender) {
+status = true
+}
+})
+return status
 }
 const isAfk = (idi) => {
     let status = false
@@ -275,8 +306,9 @@ try {
 		const isGroup = from.endsWith('@g.us')
 		const sender = mek.key.fromMe ? kira.user.jid : isGroup ? mek.participant : mek.key.remoteJid
 		const senderNumber = sender.split("@")[0] 
+		const isRegister = checkRegisteredUser(sender)
 		const conts = mek.key.fromMe ? kira.user.jid : kira.contacts[mek.sender]
-       		const pushname = mek.key.fromMe ? kira.user.name : !conts ? '-' : conts.notify || conts.vname || conts.name || '-'   
+        const pushname = mek.key.fromMe ? kira.user.name : !conts ? '-' : conts.notify || conts.vname || conts.name || '-'   
 		const totalchat = await kira.chats.all()
 		const groupMetadata = isGroup ? await kira.groupMetadata(from) : ''
 		const groupName = isGroup ? groupMetadata.subject : ''
@@ -910,6 +942,7 @@ kira.updatePresence(from, Presence.recording)
 switch (command) {
 case 'menu':
 case 'help':
+if (!isRegister) return reply(ind.noregis())
 stod = `${sender}`
 stst = await kira.getStatus(`${sender.split('@')[0]}@c.us`)
 stst = stst.status == 401 ? '' : stst.status
@@ -1535,6 +1568,43 @@ client.close()
 } catch {
 reply('Oke')
 client.close()
+}
+break
+case 'verify':
+case 'daftar':
+case 'register':
+if (isRegister) return reply('```Akun Kamu Sudah Terverfikasi```')
+veri = sender
+if (isGroup) {
+const namaUser = `${pushname}`
+const serialUser = createSerial(10)
+addRegisteredUser(sender, namaUser, time, serialUser)
+hasil = ` 〘 *VERIFIKASI SUKSES* 〙
+
+
+• *NAMA :* ${namaUser}
+• *NOMOR :* ${sender.split("@")[0]}
+• *SERIAL :* ${serialUser}
+• *WAKTU VERIFIKASI :* ${time}
+
+      「 *TERIMAKASIH* 」`
+kira.sendMessage(from, hasil, text, {quoted: ftoko})
+console.log(color('❲ VERIFIKASI ❳'), '\nTIME : ', color(time, 'yellow'), '\nNAME : ', color(namaUser, 'cyan'), '\nSERIAL : ', color(serialUser, 'cyan'), '\nDI GRUP : ', color(sender || groupName))
+} else {
+const namaUser = `${pushname}`
+const serialUser = createSerial(10)
+addRegisteredUser(sender, namaUser, time, serialUser)
+hasil = ` 〘 *VERIFIKASI SUKSES* 〙
+
+
+• *NAMA :* ${namaUser}
+• *NOMOR :* ${sender.split("@")[0]}
+• *SERIAL :* ${serialUser}
+• *WAKTU VERIFIKASI :* ${time}
+
+      「 *TERIMAKASIH* 」`
+kira.sendMessage(from, hasil, text, {quoted: ftoko})
+console.log(color('❲ VERIFIKASI ❳'), '\nTIME : ', color(time, 'yellow'), '\nNAME : ', color(namaUser, 'cyan'), '\nSERIAL : ', color(serialUser, 'cyan'))
 }
 break
 case 'owner':
@@ -2233,33 +2303,6 @@ case 'matrix':
                     const text2 = c.substring(c.lastIndexOf('|') + 1)
                     reply( text1 + readmore + text2)
                     break
-case 'harta':
-   if (!arg) return reply(from, `Penggunaan ${prefix}harta teks`, mek)
-   sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/chartatahta?text=${arg}&apikey=${HunterApi}`)
-   break
-		case 'harta2':
-   if (!arg) return reply(from, `Penggunaan ${prefix}harta teks`, mek)
-   sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/hartatahta?text=${arg}&apikey=Ikyy69`)
-   break
-
-case 'hentai':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
-sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/nsfw/hentai?apikey=Ikyy69`)
-break
-case 'yuri':
-case 'blowjob':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
-return reply(mess.wait)
-sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/nsfw/${command}?apikey=Ikyy69`)
-break
-
-case 'megumin':
-case 'shinobu':
-case 'waifu':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
-return reply(mess.wait)
-sendMediaURL(from, `https://bx-hunter.herokuapp.com/api/sfw/${command}?apikey=Ikyy69`)
-break
                     case 'delchat':
                     if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
                 reply('Sukses menghapus chat' + from)
